@@ -19,7 +19,7 @@ var templateCache = {
 };
 
 var js = {
-    src : [ 'src/app.js', 'src/components/**/*.js', 'src/directives/**/*.js', tmpDir + '/**/*.js' ],
+    src : [ 'src/app.js', 'src/services/**/*.js', 'src/components/**/*.js', tmpDir + '/**/*.js' ],
     lib : []
 };
 
