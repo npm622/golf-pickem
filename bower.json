@@ -1,0 +1,31 @@
+{
+  "name": "golf-pickem",
+  "description": "front end module to play, track, and archive golf pickem pools",
+  "main": [
+    "dist/bundle.js",
+    "dist/bundle.css"
+  ],
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src",
+    "package.json",
+    "gulpfile.js",
+    "README.md"
+  ],
+  "authors": [
+    "nick makes"
+  ],
+  "homepage": "git://github.com/npm622/golf-pickem",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/npm622/golf-pickem"
+  },
+  "devDependencies": {
+  }
+}
