@@ -5,10 +5,15 @@
 
     .component( 'golfPickemDashboard', {
         templateUrl : 'components/golf-pickem-dashboard/golf-pickem-dashboard.html',
-        controller : [ GolfPickemDashboardCtrl ]
+        controller : [ 'Pickem', GolfPickemDashboardCtrl ]
     } );
 
-    function GolfPickemDashboardCtrl() {
+    function GolfPickemDashboardCtrl( Pickem ) {
         var vm = this;
+
+        Pickem.fetchEntriesByTourneyId( 'ms16' ).then( function( entries ) {
+            console.log( entries );
+        }, function() {
+        } );
     }
 } )();
