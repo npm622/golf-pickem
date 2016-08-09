@@ -55,7 +55,7 @@
                     for ( var prop in row ) {
                         if ( row.hasOwnProperty( prop ) && prop.startsWith( 'gsx$' ) ) {
                             var key = prop.replace( 'gsx$', '' );
-                            datum[key] = row[prop];
+                            datum[key] = row[prop].$t;
                         }
                     }
                 }
@@ -96,9 +96,10 @@
 
         Pickem.fetchEntriesByTourneyId( 'ms16' ).then( function( entries ) {
             console.log( entries );
+            vm.entries = entries;
         }, function() {
         } );
     }
 } )();
 
-(function(){angular.module("golf-pickem.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/golf-pickem-dashboard/golf-pickem-dashboard.html","<div class=\"dashboard-wrapper\">\n    <div class=\"col-md-2 dashboard-sidebar-wrapper\">\n        <div class=\"dashboard-sidebar\">\n\n            sidebar\n\n        </div>\n    </div>\n    <div class=\"col-md-10 pull-right dashboard-main-wrapper\">\n        <div class=\"dashboard-main\">\n\n            main\n            \n        </div>\n\n        <div class=\"footer\">hand rolled by nick.</div>\n    </div>\n</div>\n");}]);})();
+(function(){angular.module("golf-pickem.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/golf-pickem-dashboard/golf-pickem-dashboard.html","<div class=\"dashboard-wrapper\">\n    <div class=\"col-md-2 dashboard-sidebar-wrapper\">\n        <div class=\"dashboard-sidebar\">sidebar</div>\n    </div>\n    <div class=\"col-md-10 pull-right dashboard-main-wrapper\">\n        <div class=\"dashboard-main\">\n\n            <pre>{{$ctrl.entries | json}}</pre>\n\n        </div>\n\n        <div class=\"footer\">hand rolled by nick.</div>\n    </div>\n</div>\n");}]);})();

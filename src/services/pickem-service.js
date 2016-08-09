@@ -19,7 +19,7 @@
                     for ( var prop in row ) {
                         if ( row.hasOwnProperty( prop ) && prop.startsWith( 'gsx$' ) ) {
                             var key = prop.replace( 'gsx$', '' );
-                            datum[key] = row[prop];
+                            datum[key] = row[prop].$t;
                         }
                     }
                 }

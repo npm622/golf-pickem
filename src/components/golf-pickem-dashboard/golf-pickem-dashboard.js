@@ -13,6 +13,7 @@
 
         Pickem.fetchEntriesByTourneyId( 'ms16' ).then( function( entries ) {
             console.log( entries );
+            vm.entries = entries;
         }, function() {
         } );
     }
