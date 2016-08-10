@@ -61,6 +61,9 @@
                 value = new Date( parseInt( dateParts[2] ), parseInt( dateParts[0] ) - 1, parseInt( dateParts[1] ) );
             } else if ( !isNaN( Number( value ) ) ) { // assuming number
                 if ( value.includes( '.' ) ) { // assuming decimal
+                    if ( value.includes( ',' ) ) {
+                        value = value.replace( /,/, '' );
+                    }
                     value = parseFloat( value );
                     console.log( 'float: ' + value );
                 } else { // assuming integer
