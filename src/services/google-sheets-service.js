@@ -62,8 +62,10 @@
             } else if ( !isNaN( Number( value ) ) ) { // assuming number
                 if ( value.includes( '.' ) ) { // assuming decimal
                     value = parseFloat( value );
+                    console.log( 'float: ' + value );
                 } else { // assuming integer
                     value = parseInt( value );
+                    console.log( 'int: ' + value );
                 }
             }
             return value;
