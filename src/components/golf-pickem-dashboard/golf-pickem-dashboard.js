@@ -53,7 +53,7 @@
             for ( var i = 0; i < vm.entrants.length; i++ ) {
                 var entrant = vm.entrants[i];
                 if ( entrant.eid === eid ) {
-                    return entrant;
+                    return entrant.name;
                 }
             }
             return 'unknown';
