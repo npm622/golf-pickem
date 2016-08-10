@@ -51,7 +51,7 @@
 
         function determineActiveTourney() {
             if ( $location.search().tourney ) {
-                vm.activeTourney = getTourneyByTid( $location.search().tourney );
+                vm.displayTourney( getTourneyByTid( $location.search().tourney ) );
             }
         }
 
