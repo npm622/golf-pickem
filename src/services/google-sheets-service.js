@@ -52,6 +52,7 @@
 
                 rs.push( obj );
             }
+            console.log( rs );
             return rs;
         }
 
@@ -60,8 +61,8 @@
                 var dateParts = value.split( '/' );
                 value = new Date( parseInt( dateParts[2] ), parseInt( dateParts[0] ) - 1, parseInt( dateParts[1] ) );
             } else if ( !isNaN( Number( value ) ) ) { // assuming number
-                if ( value.includes( '.' ) ) { // assuming decimal
-                    if ( value.includes( ',' ) ) {
+                if ( value.indexOf( '.' ) !== -1 ) { // assuming decimal
+                    if ( value.indexOf( ',' ) !== -1 ) {
                         value = value.replace( /,/, '' );
                     }
                     value = parseFloat( value );
