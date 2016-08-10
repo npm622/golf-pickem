@@ -56,24 +56,21 @@
         }
 
         function parseValue( value ) {
-            if ( value.includes( '/' ) ) { // assuming date: M/d/yyyy
-                var dateParts = value.split( '/' );
-                value = new Date( parseInt( dateParts[2] ), parseInt( dateParts[0] ) - 1, parseInt( dateParts[1] ) );
+            if ( value.indexOf( '/' ) !== -1 ) { // assuming date: M/d/yyyy
+                return parseDate( value );
             } else if ( !isNaN( Number( value ) ) ) { // assuming number
                 if ( value.indexOf( '.' ) !== -1 ) { // assuming decimal
-                    console.log( 'float' );
-                    console.log( value );
-                    if ( value.indexOf( ',' ) !== -1 ) {
-                        value = value.replace( /,/, '' );
-                        console.log( value );
-                    }
-                    value = parseFloat( value );
-                    console.log( value );
+                    return parseFloat( value );
                 } else { // assuming integer
-                    value = parseInt( value );
+                    return parseInt( value );
                 }
             }
             return value;
+        }
+
+        function parseDate( value ) {
+            var dateParts = value.split( '/' );
+            return new Date( parseInt( dateParts[2] ), parseInt( dateParts[0] ) - 1, parseInt( dateParts[1] ) );
         }
     }
 } )();

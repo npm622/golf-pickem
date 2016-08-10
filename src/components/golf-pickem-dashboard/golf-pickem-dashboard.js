@@ -13,13 +13,7 @@
 
         vm.$onInit = function() {
             getTourneys();
-            test();
         };
-
-        function test() {
-            console.log( parseFloat( '1,234.56' ) );
-            console.log( parseFloat( '1234.56' ) );
-        }
 
         vm.tourneyMenuDisplay = function() {
             if ( vm.activeTourney ) {
