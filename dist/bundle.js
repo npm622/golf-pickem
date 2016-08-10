@@ -109,7 +109,10 @@
                     for ( var prop in row ) {
                         if ( row.hasOwnProperty( prop ) && prop.startsWith( 'gsx$' ) ) {
                             var key = prop.replace( 'gsx$', '' );
-                            obj[key] = row[prop].$t;
+                            var value = row[prop].$t;
+
+                            // TODO: add parsing logic to make numbers numbers, dates dates, etc.
+                            obj[key] = value;
                         }
                     }
                 }
@@ -174,7 +177,7 @@
 
         function determineActiveTourney() {
             if ( $location.search().tourney ) {
-                getTourneyByTid( $location.search().tourney );
+                vm.activeTourney = getTourneyByTid( $location.search().tourney );
             }
         }
 
