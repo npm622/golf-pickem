@@ -13,7 +13,17 @@
 
         vm.$onInit = function() {
             getTourneys();
+            test();
         };
+
+        function test() {
+            var string = 'string';
+            var int = '3';
+            var decimal = '2,900,321.23';
+            var date = '5/12/99';
+
+            console.log( int.test( '/\d/' ) )
+        }
 
         vm.tourneyMenuDisplay = function() {
             if ( vm.activeTourney ) {
