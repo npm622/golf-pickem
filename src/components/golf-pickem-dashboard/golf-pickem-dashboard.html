@@ -5,15 +5,37 @@
     <div class="col-md-10 pull-right dashboard-main-wrapper">
         <div class="dashboard-main">
 
-            <pre ng-show="$ctrl.tourneys">{{$ctrl.tourneys | json}}</pre>
+            <div class="panel panel-default">
+                <div class="panel-heading">picks</div>
+                <div class="panel-body">
+                    <p>TODO: add a filter here</p>
+                </div>
 
-            <hr />
+                <!-- Table -->
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>pick 1</th>
+                            <th>pick 2</th>
+                            <th>pick 3</th>
+                            <th>pick 4</th>
+                            <th>pick 5</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="pick in $ctrl.picks">
+                            <td>{{pick.name}}</td>
+                            <td>{{pick.pick1}}</td>
+                            <td>{{pick.pick2}}</td>
+                            <td>{{pick.pick3}}</td>
+                            <td>{{pick.pick4}}</td>
+                            <td>{{pick.pick5}}</td>
+                        </tr>
+                    </tbody>
 
-            <pre ng-show="$ctrl.entrants">{{$ctrl.entrants | json}}</pre>
-
-            <hr />
-
-            <pre ng-show="$ctrl.picks">{{$ctrl.picks | json}}</pre>
+                </table>
+            </div>
 
         </div>
 

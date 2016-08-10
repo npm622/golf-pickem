@@ -12,9 +12,10 @@
         var vm = this;
 
         vm.$onInit = function() {
+            vm.pickCount = 5;
+
             getTourneys();
-            getEntrants();
-            getPicks();
+            curatePickDtos();
         };
 
         function getTourneys() {
@@ -24,18 +25,36 @@
             } );
         }
 
-        function getEntrants() {
+        function curatePickDtos() {
             golfPickemService.getEntrants().then( function( entrants ) {
                 vm.entrants = entrants;
+
+                golfPickemService.getPicks().then( function( picks ) {
+                    vm.picks = [];
+                    for ( var i = 0; i < picks.length; i++ ) {
+                        var dto = {};
+                        var pick = picks[i];
+
+                        dto.name = getNameByEid( pick.eid );
+
+                        for ( var n = 1; n <= vm.pickCount; n++ ) {
+                            dto['pick' + n] = pick['n' + n];
+                        }
+                    }
+                }, function() {
+                } );
             }, function() {
             } );
         }
 
-        function getPicks() {
-            golfPickemService.getPicks().then( function( picks ) {
-                vm.picks = picks;
-            }, function() {
-            } );
+        function getNameByEid( eid ) {
+            for ( var i = 0; i < vm.entrants.length; i++ ) {
+                var entrant = vm.entrants[i];
+                if ( entrant.eid === eid ) {
+                    return entrant;
+                }
+            }
+            return 'unknown';
         }
     }
 } )();

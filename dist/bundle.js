@@ -119,9 +119,10 @@
         var vm = this;
 
         vm.$onInit = function() {
+            vm.pickCount = 5;
+
             getTourneys();
-            getEntrants();
-            getPicks();
+            curatePickDtos();
         };
 
         function getTourneys() {
@@ -131,20 +132,38 @@
             } );
         }
 
-        function getEntrants() {
+        function curatePickDtos() {
             golfPickemService.getEntrants().then( function( entrants ) {
                 vm.entrants = entrants;
+
+                golfPickemService.getPicks().then( function( picks ) {
+                    vm.picks = [];
+                    for ( var i = 0; i < picks.length; i++ ) {
+                        var dto = {};
+                        var pick = picks[i];
+
+                        dto.name = getNameByEid( pick.eid );
+
+                        for ( var n = 1; n <= vm.pickCount; n++ ) {
+                            dto['pick' + n] = pick['n' + n];
+                        }
+                    }
+                }, function() {
+                } );
             }, function() {
             } );
         }
 
-        function getPicks() {
-            golfPickemService.getPicks().then( function( picks ) {
-                vm.picks = picks;
-            }, function() {
-            } );
+        function getNameByEid( eid ) {
+            for ( var i = 0; i < vm.entrants.length; i++ ) {
+                var entrant = vm.entrants[i];
+                if ( entrant.eid === eid ) {
+                    return entrant;
+                }
+            }
+            return 'unknown';
         }
     }
 } )();
 
-(function(){angular.module("golf-pickem.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/golf-pickem-dashboard/golf-pickem-dashboard.html","<div class=\"dashboard-wrapper\">\n    <div class=\"col-md-2 dashboard-sidebar-wrapper\">\n        <div class=\"dashboard-sidebar\">sidebar</div>\n    </div>\n    <div class=\"col-md-10 pull-right dashboard-main-wrapper\">\n        <div class=\"dashboard-main\">\n\n            <pre ng-show=\"$ctrl.tourneys\">{{$ctrl.tourneys | json}}</pre>\n\n            <hr />\n\n            <pre ng-show=\"$ctrl.entrants\">{{$ctrl.entrants | json}}</pre>\n\n            <hr />\n\n            <pre ng-show=\"$ctrl.picks\">{{$ctrl.picks | json}}</pre>\n\n        </div>\n\n        <div class=\"footer\">hand rolled by nick.</div>\n    </div>\n</div>\n");}]);})();
+(function(){angular.module("golf-pickem.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/golf-pickem-dashboard/golf-pickem-dashboard.html","<div class=\"dashboard-wrapper\">\n    <div class=\"col-md-2 dashboard-sidebar-wrapper\">\n        <div class=\"dashboard-sidebar\">sidebar</div>\n    </div>\n    <div class=\"col-md-10 pull-right dashboard-main-wrapper\">\n        <div class=\"dashboard-main\">\n\n            <div class=\"panel panel-default\">\n                <div class=\"panel-heading\">picks</div>\n                <div class=\"panel-body\">\n                    <p>TODO: add a filter here</p>\n                </div>\n\n                <!-- Table -->\n                <table class=\"table table-hover\">\n                    <thead>\n                        <tr>\n                            <th>name</th>\n                            <th>pick 1</th>\n                            <th>pick 2</th>\n                            <th>pick 3</th>\n                            <th>pick 4</th>\n                            <th>pick 5</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr ng-repeat=\"pick in $ctrl.picks\">\n                            <td>{{pick.name}}</td>\n                            <td>{{pick.pick1}}</td>\n                            <td>{{pick.pick2}}</td>\n                            <td>{{pick.pick3}}</td>\n                            <td>{{pick.pick4}}</td>\n                            <td>{{pick.pick5}}</td>\n                        </tr>\n                    </tbody>\n\n                </table>\n            </div>\n\n        </div>\n\n        <div class=\"footer\">hand rolled by nick.</div>\n    </div>\n</div>\n");}]);})();
