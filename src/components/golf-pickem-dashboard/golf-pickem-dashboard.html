@@ -31,9 +31,21 @@
             <div
                 class="panel panel-default"
                 ng-show="$ctrl.activeTourney">
-                <div class="panel-heading">picks</div>
+                <div class="panel-heading">{{vm.activeTourney.name}}</div>
                 <div class="panel-body">
-                    <p>TODO: add a filter here</p>
+
+                    <div class="form-inline">
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="search"
+                                ng-model="$ctrl.searchInput"> <span
+                                class="input-group-addon fa fa-search"
+                                ng-click="$ctrl.search()"></span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Table -->
