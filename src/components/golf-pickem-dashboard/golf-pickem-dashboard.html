@@ -34,8 +34,9 @@
                 <div class="panel-heading">
                     <h3>
                         {{$ctrl.activeTourney.name}}
-                        <p class="text-muted">{{$ctrl.activeTourney.course}}: Par {{$ctrl.activeTourney.par}} | Cut Line @ {{$ctrl.activeTourney.cutLine}}</p>
+                        <p class="text-muted">{{$ctrl.activeTourney.course}}</p>
                     </h3>
+                    <p>par {{$ctrl.activeTourney.par}} (cut line: {{$ctrl.activeTourney.cutLine}})</p>
                     {{$ctrl.activeTourney.startDate | date: medium}} - {{$ctrl.activeTourney.endDate | date: medium}}
                 </div>
                 <div class="panel-body">

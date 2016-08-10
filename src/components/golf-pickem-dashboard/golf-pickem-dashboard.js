@@ -54,6 +54,7 @@
         function getTourneys() {
             golfPickemService.getTourneys().then( function( tourneys ) {
                 vm.tourneys = tourneys;
+                console.log( vm.tourneys );
             }, function() {
             } );
         }
