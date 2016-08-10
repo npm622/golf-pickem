@@ -65,7 +65,7 @@
         function getSheetsJsonPromise( sheet ) {
             var deferred = $q.defer();
 
-            $http.get( buildJsonUrl( sheet ) ).then( function( response ) {
+            $http.get( buildJsonUrl( golfPickemKey, sheet ) ).then( function( response ) {
                 deferred.resolve( parseData( response.data ) );
             }, function() {
                 deferred.reject();
