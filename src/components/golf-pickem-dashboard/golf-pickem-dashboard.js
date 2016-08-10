@@ -5,16 +5,31 @@
 
     .component( 'golfPickemDashboard', {
         templateUrl : 'components/golf-pickem-dashboard/golf-pickem-dashboard.html',
-        controller : [ 'Pickem', GolfPickemDashboardCtrl ]
+        controller : [ 'golfPickemService', GolfPickemDashboardCtrl ]
     } );
 
-    function GolfPickemDashboardCtrl( Pickem ) {
+    function GolfPickemDashboardCtrl( golfPickemService ) {
         var vm = this;
 
-        Pickem.fetchEntriesByTourneyId( 'ms16' ).then( function( entries ) {
-            console.log( entries );
-            vm.entries = entries;
-        }, function() {
-        } );
+        function getTourneys() {
+            golfPickemService.getTourneys().then( function( tourneys ) {
+                vm.tourneys = tourneys;
+            }, function() {
+            } );
+        }
+
+        function getEntrants() {
+            golfPickemService.getEntrants().then( function( entrants ) {
+                vm.entrants = entrants;
+            }, function() {
+            } );
+        }
+
+        function getPicks() {
+            golfPickemService.getPicks().then( function( picks ) {
+                vm.picks = picks;
+            }, function() {
+            } );
+        }
     }
 } )();
