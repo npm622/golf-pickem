@@ -26,6 +26,18 @@
             }
         };
 
+        function getSheetsJsonPromise( sheet ) {
+            var deferred = $q.defer();
+
+            $http.get( buildJsonUrl( sheet ) ).then( function( response ) {
+                deferred.resolve( parseData( response.data ) );
+            }, function() {
+                deferred.reject();
+            } );
+
+            return deferred.promise;
+        }
+
         function buildJsonUrl( key ) {
             return buildJsonUrl( 'default' );
         }
@@ -53,18 +65,6 @@
             }
 
             return pickemData;
-        }
-
-        function getSheetsJsonPromise( sheet ) {
-            var deferred = $q.defer();
-
-            $http.get( buildJsonUrl( sheet ) ).then( function( response ) {
-                deferred.resolve( parseData( response.data ) );
-            }, function() {
-                deferred.reject();
-            } );
-
-            return deferred.promise;
         }
     }
 } )();

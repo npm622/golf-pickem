@@ -11,6 +11,12 @@
     function GolfPickemDashboardCtrl( golfPickemService ) {
         var vm = this;
 
+        vm.$onInit = function() {
+            getTourneys();
+            getEntrants();
+            getPicks();
+        };
+
         function getTourneys() {
             golfPickemService.getTourneys().then( function( tourneys ) {
                 vm.tourneys = tourneys;

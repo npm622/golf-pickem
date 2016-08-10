@@ -5,15 +5,15 @@
     <div class="col-md-10 pull-right dashboard-main-wrapper">
         <div class="dashboard-main">
 
-            <pre>{{$ctrl.tourneys | json}}</pre>
-            
-            <hr/>
+            <pre ng-show="$ctrl.tourneys">{{$ctrl.tourneys | json}}</pre>
 
-            <pre>{{$ctrl.entrants | json}}</pre>
-            
-            <hr/>
+            <hr />
 
-            <pre>{{$ctrl.picks | json}}</pre>
+            <pre ng-show="$ctrl.entrants">{{$ctrl.entrants | json}}</pre>
+
+            <hr />
+
+            <pre ng-show="$ctrl.picks">{{$ctrl.picks | json}}</pre>
 
         </div>
 

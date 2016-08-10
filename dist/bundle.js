@@ -62,6 +62,18 @@
             }
         };
 
+        function getSheetsJsonPromise( sheet ) {
+            var deferred = $q.defer();
+
+            $http.get( buildJsonUrl( sheet ) ).then( function( response ) {
+                deferred.resolve( parseData( response.data ) );
+            }, function() {
+                deferred.reject();
+            } );
+
+            return deferred.promise;
+        }
+
         function buildJsonUrl( key ) {
             return buildJsonUrl( 'default' );
         }
@@ -90,18 +102,6 @@
 
             return pickemData;
         }
-
-        function getSheetsJsonPromise( sheet ) {
-            var deferred = $q.defer();
-
-            $http.get( buildJsonUrl( sheet ) ).then( function( response ) {
-                deferred.resolve( parseData( response.data ) );
-            }, function() {
-                deferred.reject();
-            } );
-
-            return deferred.promise;
-        }
     }
 } )();
 
@@ -117,6 +117,12 @@
 
     function GolfPickemDashboardCtrl( golfPickemService ) {
         var vm = this;
+
+        vm.$onInit = function() {
+            getTourneys();
+            getEntrants();
+            getPicks();
+        };
 
         function getTourneys() {
             golfPickemService.getTourneys().then( function( tourneys ) {
@@ -141,4 +147,4 @@
     }
 } )();
 
-(function(){angular.module("golf-pickem.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/golf-pickem-dashboard/golf-pickem-dashboard.html","<div class=\"dashboard-wrapper\">\n    <div class=\"col-md-2 dashboard-sidebar-wrapper\">\n        <div class=\"dashboard-sidebar\">sidebar</div>\n    </div>\n    <div class=\"col-md-10 pull-right dashboard-main-wrapper\">\n        <div class=\"dashboard-main\">\n\n            <pre>{{$ctrl.tourneys | json}}</pre>\n            \n            <hr/>\n\n            <pre>{{$ctrl.entrants | json}}</pre>\n            \n            <hr/>\n\n            <pre>{{$ctrl.picks | json}}</pre>\n\n        </div>\n\n        <div class=\"footer\">hand rolled by nick.</div>\n    </div>\n</div>\n");}]);})();
+(function(){angular.module("golf-pickem.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/golf-pickem-dashboard/golf-pickem-dashboard.html","<div class=\"dashboard-wrapper\">\n    <div class=\"col-md-2 dashboard-sidebar-wrapper\">\n        <div class=\"dashboard-sidebar\">sidebar</div>\n    </div>\n    <div class=\"col-md-10 pull-right dashboard-main-wrapper\">\n        <div class=\"dashboard-main\">\n\n            <pre ng-show=\"$ctrl.tourneys\">{{$ctrl.tourneys | json}}</pre>\n\n            <hr />\n\n            <pre ng-show=\"$ctrl.entrants\">{{$ctrl.entrants | json}}</pre>\n\n            <hr />\n\n            <pre ng-show=\"$ctrl.picks\">{{$ctrl.picks | json}}</pre>\n\n        </div>\n\n        <div class=\"footer\">hand rolled by nick.</div>\n    </div>\n</div>\n");}]);})();
