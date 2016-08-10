@@ -5,10 +5,10 @@
 
     .component( 'golfPickemDashboard', {
         templateUrl : 'components/golf-pickem-dashboard/golf-pickem-dashboard.html',
-        controller : [ '$location', 'golfPickemService', GolfPickemDashboardCtrl ]
+        controller : [ 'golfPickemService', GolfPickemDashboardCtrl ]
     } );
 
-    function GolfPickemDashboardCtrl( $location, golfPickemService ) {
+    function GolfPickemDashboardCtrl( golfPickemService ) {
         var vm = this;
 
         vm.$onInit = function() {
@@ -28,10 +28,6 @@
                 vm.activeTourney = tourney;
             }
 
-            $location.search( {
-                'tourney' : vm.activeTourney.tid
-            } );
-
             setupSortAndSearch();
             curatePickDtos();
         }
@@ -46,12 +42,6 @@
             } else {
                 vm.sortExpression = col;
                 vm.sortDirection = false;
-            }
-        }
-
-        function determineActiveTourney() {
-            if ( $location.search().tourney ) {
-                vm.displayTourney( getTourneyByTid( $location.search().tourney ) );
             }
         }
 
