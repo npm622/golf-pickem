@@ -5,10 +5,10 @@
 
     .component( 'golfPickemDashboard', {
         templateUrl : 'components/golf-pickem-dashboard/golf-pickem-dashboard.html',
-        controller : [ 'golfPickemService', GolfPickemDashboardCtrl ]
+        controller : [ '$location', 'golfPickemService', GolfPickemDashboardCtrl ]
     } );
 
-    function GolfPickemDashboardCtrl( golfPickemService ) {
+    function GolfPickemDashboardCtrl( $location, golfPickemService ) {
         var vm = this;
 
         vm.$onInit = function() {
@@ -28,12 +28,40 @@
                 vm.activeTourney = tourney;
             }
 
+            setupSortAndSearch();
             curatePickDtos();
+        }
+
+        vm.search = function() {
+            vm.filter.$ = vm.searchInput;
+        }
+
+        vm.sortBy = function( col ) {
+            if ( vm.sortExpression === col.jsonPath ) {
+                vm.sortDirection = !vm.sortDirection;
+            } else {
+                vm.sortExpression = col.jsonPath;
+                vm.sortDirection = false;
+            }
+        }
+
+        function determineActiveTourney() {
+            if ( $location.search().tourney ) {
+                getTourneyByTid( $location.search().tourney );
+            }
+        }
+
+        function setupSortAndSearch() {
+            vm.filter = {};
+            vm.sortExpression = 'name';
+            vm.sortDirection = false;
         }
 
         function getTourneys() {
             golfPickemService.getTourneys().then( function( tourneys ) {
                 vm.tourneys = tourneys;
+
+                determineActiveTourney();
             }, function() {
             } );
         }
@@ -79,6 +107,15 @@
                 } );
             }, function() {
             } );
+        }
+
+        function getTourneyByTid( tid ) {
+            for ( var i = 0; i < vm.tourneys.length; i++ ) {
+                var tourney = vm.tourneys[i];
+                if ( tourney.tid === tid ) {
+                    return tourney;
+                }
+            }
         }
 
         function getNameByEid( eid ) {

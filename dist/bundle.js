@@ -128,10 +128,10 @@
 
     .component( 'golfPickemDashboard', {
         templateUrl : 'components/golf-pickem-dashboard/golf-pickem-dashboard.html',
-        controller : [ 'golfPickemService', GolfPickemDashboardCtrl ]
+        controller : [ '$location', 'golfPickemService', GolfPickemDashboardCtrl ]
     } );
 
-    function GolfPickemDashboardCtrl( golfPickemService ) {
+    function GolfPickemDashboardCtrl( $location, golfPickemService ) {
         var vm = this;
 
         vm.$onInit = function() {
@@ -151,12 +151,40 @@
                 vm.activeTourney = tourney;
             }
 
+            setupSortAndSearch();
             curatePickDtos();
+        }
+
+        vm.search = function() {
+            vm.filter.$ = vm.searchInput;
+        }
+
+        vm.sortBy = function( col ) {
+            if ( vm.sortExpression === col.jsonPath ) {
+                vm.sortDirection = !vm.sortDirection;
+            } else {
+                vm.sortExpression = col.jsonPath;
+                vm.sortDirection = false;
+            }
+        }
+
+        function determineActiveTourney() {
+            if ( $location.search().tourney ) {
+                getTourneyByTid( $location.search().tourney );
+            }
+        }
+
+        function setupSortAndSearch() {
+            vm.filter = {};
+            vm.sortExpression = 'name';
+            vm.sortDirection = false;
         }
 
         function getTourneys() {
             golfPickemService.getTourneys().then( function( tourneys ) {
                 vm.tourneys = tourneys;
+
+                determineActiveTourney();
             }, function() {
             } );
         }
@@ -204,6 +232,15 @@
             } );
         }
 
+        function getTourneyByTid( tid ) {
+            for ( var i = 0; i < vm.tourneys.length; i++ ) {
+                var tourney = vm.tourneys[i];
+                if ( tourney.tid === tid ) {
+                    return tourney;
+                }
+            }
+        }
+
         function getNameByEid( eid ) {
             for ( var i = 0; i < vm.entrants.length; i++ ) {
                 var entrant = vm.entrants[i];
@@ -216,4 +253,4 @@
     }
 } )();
 
-(function(){angular.module("golf-pickem.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/golf-pickem-dashboard/golf-pickem-dashboard.html","<div class=\"dashboard-wrapper\">\n    <div class=\"col-md-2 dashboard-sidebar-wrapper\">\n        <div class=\"dashboard-sidebar\">\n\n            <div class=\"dropdown\">\n                <button\n                    class=\"btn btn-default btn-block dropdown-toggle\"\n                    type=\"button\"\n                    id=\"tourneyMenu\"\n                    data-toggle=\"dropdown\"\n                    aria-haspopup=\"true\"\n                    aria-expanded=\"true\">\n                    {{$ctrl.tourneyMenuDisplay()}} <i\n                        class=\"fa fa-caret-down\"\n                        aria-hidden=\"true\"></i>\n                </button>\n                <ul\n                    class=\"dropdown-menu\"\n                    aria-labelledby=\"tourneyMenu\">\n                    <li ng-repeat=\"tourney in $ctrl.tourneys\"><a ng-click=\"$ctrl.displayTourney(tourney)\">{{tourney.name}}</a></li>\n                </ul>\n            </div>\n\n            <div class=\"btn-group\">\n                <button\n                    type=\"button\"\n                    class=\"btn btn-default btn-block\">{{$ctrl.tourneyMenuDisplay()}}</button>\n                <button\n                    type=\"button\"\n                    class=\"btn btn-default dropdown-toggle\"\n                    data-toggle=\"dropdown\"\n                    aria-haspopup=\"true\"\n                    aria-expanded=\"false\">\n                    <i\n                        class=\"fa fa-caret-down\"\n                        aria-hidden=\"true\"></i> <span class=\"sr-only\">toggle dropdown</span>\n                </button>\n                <ul\n                    class=\"dropdown-menu\"\n                    aria-labelledby=\"tourneyMenu\">\n                    <li ng-repeat=\"tourney in $ctrl.tourneys\"><a ng-click=\"$ctrl.displayTourney(tourney)\">{{tourney.name}}</a></li>\n                </ul>\n            </div>\n\n        </div>\n    </div>\n    <div class=\"col-md-10 pull-right dashboard-main-wrapper\">\n        <div class=\"dashboard-main\">\n\n            <div ng-hide=\"$ctrl.activeTourney\">please select a tournament from the left.</div>\n\n            <div\n                class=\"panel panel-default\"\n                ng-show=\"$ctrl.activeTourney\">\n                <div class=\"panel-heading\">picks</div>\n                <div class=\"panel-body\">\n                    <p>TODO: add a filter here</p>\n                </div>\n\n                <!-- Table -->\n                <table class=\"table table-hover\">\n                    <thead>\n                        <tr>\n                            <th>rank</th>\n                            <th>name</th>\n                            <th>pick 1</th>\n                            <th>pick 2</th>\n                            <th>pick 3</th>\n                            <th>pick 4</th>\n                            <th>pick 5</th>\n                            <th>win shares 1</th>\n                            <th>win shares 2</th>\n                            <th>win shares 3</th>\n                            <th>win shares 4</th>\n                            <th>win shares 5</th>\n                            <th>total points</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr ng-repeat=\"pick in $ctrl.picks\">\n                            <td>{{pick.rank}}</td>\n                            <td>{{pick.name}}</td>\n                            <td>{{pick.pick1}}</td>\n                            <td>{{pick.pick2}}</td>\n                            <td>{{pick.pick3}}</td>\n                            <td>{{pick.pick4}}</td>\n                            <td>{{pick.pick5}}</td>\n                            <td>{{pick.winShares1}}</td>\n                            <td>{{pick.winShares2}}</td>\n                            <td>{{pick.winShares3}}</td>\n                            <td>{{pick.winShares4}}</td>\n                            <td>{{pick.winShares5}}</td>\n                            <td>{{pick.points}}</td>\n                        </tr>\n                    </tbody>\n\n                </table>\n            </div>\n\n        </div>\n\n        <div class=\"footer\">hand rolled by nick.</div>\n    </div>\n</div>\n");}]);})();
+(function(){angular.module("golf-pickem.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("components/golf-pickem-dashboard/golf-pickem-dashboard.html","<div class=\"dashboard-wrapper\">\n    <div class=\"col-md-2 dashboard-sidebar-wrapper\">\n        <div class=\"dashboard-sidebar\">\n\n            <div class=\"dropdown\">\n                <button\n                    class=\"btn btn-default btn-block dropdown-toggle\"\n                    type=\"button\"\n                    id=\"tourneyMenu\"\n                    data-toggle=\"dropdown\"\n                    aria-haspopup=\"true\"\n                    aria-expanded=\"true\">\n                    {{$ctrl.tourneyMenuDisplay()}} <i\n                        class=\"fa fa-caret-down\"\n                        aria-hidden=\"true\"></i>\n                </button>\n                <ul\n                    class=\"dropdown-menu\"\n                    aria-labelledby=\"tourneyMenu\">\n                    <li ng-repeat=\"tourney in $ctrl.tourneys\"><a ng-click=\"$ctrl.displayTourney(tourney)\">{{tourney.name}}</a></li>\n                </ul>\n            </div>\n\n        </div>\n    </div>\n    <div class=\"col-md-10 pull-right dashboard-main-wrapper\">\n        <div class=\"dashboard-main\">\n\n            <div ng-hide=\"$ctrl.activeTourney\">please select a tournament from the left.</div>\n\n            <div\n                class=\"panel panel-default\"\n                ng-show=\"$ctrl.activeTourney\">\n                <div class=\"panel-heading\">picks</div>\n                <div class=\"panel-body\">\n                    <p>TODO: add a filter here</p>\n                </div>\n\n                <!-- Table -->\n                <table class=\"table table-hover\">\n                    <thead>\n                        <tr>\n                            <th>rank</th>\n                            <th>name</th>\n                            <th>pick 1</th>\n                            <th>pick 2</th>\n                            <th>pick 3</th>\n                            <th>pick 4</th>\n                            <th>pick 5</th>\n                            <th>win shares 1</th>\n                            <th>win shares 2</th>\n                            <th>win shares 3</th>\n                            <th>win shares 4</th>\n                            <th>win shares 5</th>\n                            <th>total points</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr ng-repeat=\"pick in $ctrl.picks\">\n                            <td>{{pick.rank}}</td>\n                            <td>{{pick.name}}</td>\n                            <td>{{pick.pick1}}</td>\n                            <td>{{pick.pick2}}</td>\n                            <td>{{pick.pick3}}</td>\n                            <td>{{pick.pick4}}</td>\n                            <td>{{pick.pick5}}</td>\n                            <td>{{pick.winShares1}}</td>\n                            <td>{{pick.winShares2}}</td>\n                            <td>{{pick.winShares3}}</td>\n                            <td>{{pick.winShares4}}</td>\n                            <td>{{pick.winShares5}}</td>\n                            <td>{{pick.points}}</td>\n                        </tr>\n                    </tbody>\n\n                </table>\n            </div>\n\n        </div>\n\n        <div class=\"footer\">hand rolled by nick.</div>\n    </div>\n</div>\n");}]);})();
