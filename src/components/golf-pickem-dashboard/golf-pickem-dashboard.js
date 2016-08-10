@@ -12,11 +12,16 @@
         var vm = this;
 
         vm.$onInit = function() {
-            vm.pickCount = 5;
-
             getTourneys();
-            curatePickDtos();
         };
+
+        vm.displayTourney = function( tourney ) {
+            if ( !vm.activeTourney || vm.activeTourney.tid != tourney.tid ) {
+                vm.activeTourney = tourney;
+            }
+
+            curatePickDtos();
+        }
 
         function getTourneys() {
             golfPickemService.getTourneys().then( function( tourneys ) {
@@ -31,15 +36,34 @@
 
                 golfPickemService.getPicks().then( function( picks ) {
                     vm.picks = [];
+
                     for ( var i = 0; i < picks.length; i++ ) {
-                        var dto = {};
                         var pick = picks[i];
+
+                        if ( !vm.activeTourney || vm.activeTourney.tid != pick.tid ) {
+                            continue;
+                        }
+
+                        var dto = {};
 
                         dto.name = getNameByEid( pick.eid );
 
-                        for ( var n = 1; n <= vm.pickCount; n++ ) {
-                            dto['pick' + n] = pick['n' + n];
-                        }
+                        dto.pick1 = pick.n1;
+                        dto.pick2 = pick.n2;
+                        dto.pick3 = pick.n3;
+                        dto.pick4 = pick.n4;
+                        dto.pick5 = pick.n5;
+
+                        dto.winShares1 = pick.w1;
+                        dto.winShares2 = pick.w2;
+                        dto.winShares3 = pick.w3;
+                        dto.winShares4 = pick.w4;
+                        dto.winShares5 = pick.w5;
+
+                        dto.points = pick.p;
+                        dto.rank = pick.place;
+
+                        dto.isPaid = pick.isPaid;
 
                         vm.picks.push( dto );
                     }

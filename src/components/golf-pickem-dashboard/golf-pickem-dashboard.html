@@ -1,11 +1,34 @@
 <div class="dashboard-wrapper">
     <div class="col-md-2 dashboard-sidebar-wrapper">
-        <div class="dashboard-sidebar">sidebar</div>
+        <div class="dashboard-sidebar">
+
+            <div class="dropdown">
+                <button
+                    class="btn btn-default dropdown-toggle"
+                    type="button"
+                    id="tourneyMenu"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="true">
+                    Dropdown <span class="caret"></span>
+                </button>
+                <ul
+                    class="dropdown-menu"
+                    aria-labelledby="tourneyMenu">
+                    <li ng-repeat="tourney in $ctrl.tourneys"><a ng-click="$ctrl.displayTourney(tourney)">{{tourney.name}}</a></li>
+                </ul>
+            </div>
+
+        </div>
     </div>
     <div class="col-md-10 pull-right dashboard-main-wrapper">
         <div class="dashboard-main">
 
-            <div class="panel panel-default">
+            <div ng-hide="$ctrl.activeTourney">please select a tournament from the left.</div>
+
+            <div
+                class="panel panel-default"
+                ng-show="$ctrl.activeTourney">
                 <div class="panel-heading">picks</div>
                 <div class="panel-body">
                     <p>TODO: add a filter here</p>
@@ -15,22 +38,36 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>rank</th>
                             <th>name</th>
                             <th>pick 1</th>
                             <th>pick 2</th>
                             <th>pick 3</th>
                             <th>pick 4</th>
                             <th>pick 5</th>
+                            <th>win shares 1</th>
+                            <th>win shares 2</th>
+                            <th>win shares 3</th>
+                            <th>win shares 4</th>
+                            <th>win shares 5</th>
+                            <th>total points</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="pick in $ctrl.picks">
+                            <td>{{pick.rank}}</td>
                             <td>{{pick.name}}</td>
                             <td>{{pick.pick1}}</td>
                             <td>{{pick.pick2}}</td>
                             <td>{{pick.pick3}}</td>
                             <td>{{pick.pick4}}</td>
                             <td>{{pick.pick5}}</td>
+                            <td>{{pick.winShares1}}</td>
+                            <td>{{pick.winShares2}}</td>
+                            <td>{{pick.winShares3}}</td>
+                            <td>{{pick.winShares4}}</td>
+                            <td>{{pick.winShares5}}</td>
+                            <td>{{pick.points}}</td>
                         </tr>
                     </tbody>
 
