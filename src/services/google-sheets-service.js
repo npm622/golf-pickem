@@ -52,7 +52,6 @@
 
                 rs.push( obj );
             }
-            console.log( rs );
             return rs;
         }
 
@@ -62,14 +61,16 @@
                 value = new Date( parseInt( dateParts[2] ), parseInt( dateParts[0] ) - 1, parseInt( dateParts[1] ) );
             } else if ( !isNaN( Number( value ) ) ) { // assuming number
                 if ( value.indexOf( '.' ) !== -1 ) { // assuming decimal
+                    console.log( 'float' );
+                    console.log( value );
                     if ( value.indexOf( ',' ) !== -1 ) {
                         value = value.replace( /,/, '' );
+                        console.log( value );
                     }
                     value = parseFloat( value );
-                    console.log( 'float: ' + value );
+                    console.log( value );
                 } else { // assuming integer
                     value = parseInt( value );
-                    console.log( 'int: ' + value );
                 }
             }
             return value;
