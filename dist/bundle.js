@@ -147,6 +147,8 @@
                         for ( var n = 1; n <= vm.pickCount; n++ ) {
                             dto['pick' + n] = pick['n' + n];
                         }
+
+                        vm.picks.push( dto );
                     }
                 }, function() {
                 } );
