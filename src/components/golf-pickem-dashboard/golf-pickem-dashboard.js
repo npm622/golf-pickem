@@ -28,6 +28,10 @@
                 vm.activeTourney = tourney;
             }
 
+            $location.search( {
+                'tourney' : vm.activeTourney.tid
+            } );
+
             setupSortAndSearch();
             curatePickDtos();
         }
@@ -37,10 +41,10 @@
         }
 
         vm.sortBy = function( col ) {
-            if ( vm.sortExpression === col.jsonPath ) {
+            if ( vm.sortExpression === col ) {
                 vm.sortDirection = !vm.sortDirection;
             } else {
-                vm.sortExpression = col.jsonPath;
+                vm.sortExpression = col;
                 vm.sortDirection = false;
             }
         }

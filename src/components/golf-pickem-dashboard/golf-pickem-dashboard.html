@@ -40,8 +40,8 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>rank</th>
-                            <th>name</th>
+                            <th><a ng-click="$ctrl.sortBy('rank')">rank</a></th>
+                            <th><a ng-click="$ctrl.sortBy('name')">name</a></th>
                             <th>pick 1</th>
                             <th>pick 2</th>
                             <th>pick 3</th>
@@ -56,7 +56,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="pick in $ctrl.picks">
+                        <tr ng-repeat="pick in $ctrl.picks | filter : $ctrl.filter | orderBy : $ctrl.sortExpression : $ctrl.sortDirection as filteredPicks">
                             <td>{{pick.rank}}</td>
                             <td>{{pick.name}}</td>
                             <td>{{pick.pick1}}</td>
@@ -64,12 +64,12 @@
                             <td>{{pick.pick3}}</td>
                             <td>{{pick.pick4}}</td>
                             <td>{{pick.pick5}}</td>
-                            <td>{{pick.winShares1}}</td>
-                            <td>{{pick.winShares2}}</td>
-                            <td>{{pick.winShares3}}</td>
-                            <td>{{pick.winShares4}}</td>
-                            <td>{{pick.winShares5}}</td>
-                            <td>{{pick.points}}</td>
+                            <td>{{pick.winShares1 | currency : '$' : 2}}</td>
+                            <td>{{pick.winShares2 | currency : '$' : 2}}</td>
+                            <td>{{pick.winShares3 | currency : '$' : 2}}</td>
+                            <td>{{pick.winShares4 | currency : '$' : 2}}</td>
+                            <td>{{pick.winShares5 | currency : '$' : 2}}</td>
+                            <td>{{pick.points | currency : '$' : 2}}</td>
                         </tr>
                     </tbody>
 
