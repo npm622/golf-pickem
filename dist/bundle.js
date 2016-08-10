@@ -192,8 +192,25 @@
 
         function getTourneys() {
             golfPickemService.getTourneys().then( function( tourneys ) {
-                vm.tourneys = tourneys;
-                console.log( vm.tourneys );
+                vm.tourneys = [];
+
+                for ( var i = 0; i < tourneys.length; i++ ) {
+                    var tourney = tourneys[i];
+
+                    var dto = {};
+                    dto.tid = tourney.tid;
+                    dto.name = tourney.name;
+                    dto.pickCount = tourney.pickcount;
+                    dto.entryFee = tourney.entryfee;
+                    dto.entryCount = tourney.entrycount;
+                    dto.course = tourney.course;
+                    dto.par = tourney.par;
+                    dto.cutLine = tourney.cutline;
+                    dto.startDate = tourney.startdate;
+                    dto.endDate = tourney.enddate;
+
+                    vm.tourneys.push( dto );
+                }
             }, function() {
             } );
         }
@@ -231,7 +248,7 @@
                         dto.points = pick.p;
                         dto.rank = pick.place;
 
-                        dto.isPaid = pick.isPaid;
+                        dto.isPaid = pick.ispaid;
 
                         vm.picks.push( dto );
                     }
