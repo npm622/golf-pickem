@@ -45,6 +45,17 @@
                             var key = prop.replace( 'gsx$', '' );
                             var value = row[prop].$t;
 
+                            if ( value.includes( '/' ) ) { // assuming date: M/d/yyyy
+                                var dateParts = value.split( '/' );
+                                value = new Date( parseInt( dateParts[2], dateParts[1] - 1, dateParts[0] ) );
+                            } else if ( !isNan( Number( value ) ) ) {
+                                if ( value.includes( '.' ) ) {
+                                    value = parseFloat( value );
+                                } else {
+                                    value = parseInt( value );
+                                }
+                            }
+
                             // TODO: add parsing logic to make numbers numbers, dates dates, etc.
                             obj[key] = value;
                         }

@@ -111,6 +111,17 @@
                             var key = prop.replace( 'gsx$', '' );
                             var value = row[prop].$t;
 
+                            if ( value.includes( '/' ) ) { // assuming date: M/d/yyyy
+                                var dateParts = value.split( '/' );
+                                value = new Date( parseInt( dateParts[2], dateParts[1] - 1, dateParts[0] ) );
+                            } else if ( !isNan( Number( value ) ) ) {
+                                if ( value.includes( '.' ) ) {
+                                    value = parseFloat( value );
+                                } else {
+                                    value = parseInt( value );
+                                }
+                            }
+
                             // TODO: add parsing logic to make numbers numbers, dates dates, etc.
                             obj[key] = value;
                         }
@@ -139,26 +150,7 @@
 
         vm.$onInit = function() {
             getTourneys();
-            test();
         };
-
-        function test() {
-            // var string = 'string';
-            // var int = '3';
-            // var int2 = '22';
-            // var int0 = '022';
-            // var decimal = '2,900,321.23';
-            // var date = '5/12/99';
-            //
-            // var regex = /(?<=\s|^)\d+(?=\s|$)/;
-            //
-            // console.log( regex.test( string ) )
-            // console.log( regex.test( int ) )
-            // console.log( regex.test( int2 ) )
-            // console.log( regex.test( int0 ) )
-            // console.log( regex.test( decimal ) )
-            // console.log( regex.test( date ) )
-        }
 
         vm.tourneyMenuDisplay = function() {
             if ( vm.activeTourney ) {
@@ -199,6 +191,7 @@
         function getTourneys() {
             golfPickemService.getTourneys().then( function( tourneys ) {
                 vm.tourneys = tourneys;
+                console.log( tourneys );
             }, function() {
             } );
         }
