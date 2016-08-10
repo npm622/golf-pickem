@@ -113,8 +113,6 @@
 
                         vm.picks.push( dto );
                     }
-
-                    console.log( vm.picks );
                 }, function() {
                 } );
             }, function() {
