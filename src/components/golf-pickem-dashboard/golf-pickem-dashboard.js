@@ -15,6 +15,14 @@
             getTourneys();
         };
 
+        vm.tourneyMenuDisplay = function() {
+            if ( vm.activeTourney ) {
+                return vm.activeTourney.name;
+            } else {
+                return "none selected";
+            }
+        }
+
         vm.displayTourney = function( tourney ) {
             if ( !vm.activeTourney || vm.activeTourney.tid != tourney.tid ) {
                 vm.activeTourney = tourney;

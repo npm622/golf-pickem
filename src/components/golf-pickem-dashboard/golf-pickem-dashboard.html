@@ -4,13 +4,15 @@
 
             <div class="dropdown">
                 <button
-                    class="btn btn-default dropdown-toggle"
+                    class="btn btn-default btn-block dropdown-toggle"
                     type="button"
                     id="tourneyMenu"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="true">
-                    Dropdown <span class="caret"></span>
+                    {{$ctrl.tourneyMenuDisplay()}} <i
+                        class="fa fa-caret-down"
+                        aria-hidden="true"></i>
                 </button>
                 <ul
                     class="dropdown-menu"
