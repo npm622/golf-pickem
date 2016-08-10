@@ -31,7 +31,13 @@
             <div
                 class="panel panel-default"
                 ng-show="$ctrl.activeTourney">
-                <div class="panel-heading">{{$ctrl.activeTourney.name}}</div>
+                <div class="panel-heading">
+                    <h3>
+                        {{$ctrl.activeTourney.name}}
+                        <p class="text-muted">{{$ctrl.activeTourney.course}}: Par {{$ctrl.activeTourney.par}} | Cut Line @ {{$ctrl.activeTourney.cutLine}}</p>
+                    </h3>
+                    {{$ctrl.activeTourney.startDate | medium}} - {{$ctrl.activeTourney.endDate | medium}}
+                </div>
                 <div class="panel-body">
 
                     <div class="form-inline">
@@ -81,7 +87,7 @@
                             <td>{{pick.winShares3 | currency : '$' : 2}}</td>
                             <td>{{pick.winShares4 | currency : '$' : 2}}</td>
                             <td>{{pick.winShares5 | currency : '$' : 2}}</td>
-                            <td>{{pick.points | currency : '$' : 2}}</td>
+                            <td>{{pick.points}}</td>
                         </tr>
                     </tbody>
 
